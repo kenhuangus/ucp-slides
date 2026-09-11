@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Proof-of-Control for UCP — Verifiable Governance for Agentic Commerce</title>
+<meta name="description" content="Proof-of-Control Assurance Framework for Universal Commerce Protocol (UCP) Agentic Commerce: Verifiable Governance at Institutional Scale. By Ken Huang, CISSP." />
+<meta name="theme-color" content="#0b0e14" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ==========================================================================
+   Proof-of-Control UCP Slide Deck — Publication Grade Design
+   Inspired by maestro-site & Cloud Security Alliance Technical Guidelines
+   ========================================================================== */
+:root {
+  --ink: #0b0e14;
+  --ink-2: #11151f;
+  --paper: #fdfcf9;
+  --paper-2: #f4f1ea;
+  --line: #e6e1d6;
+  --text: #1c1f26;
+  --muted: #5d6470;
+  --accent: #ff6a2b;
+  --accent-2: #ffb454;
+  --blue: #1971c2;
+  --red: #e03131;
+  --green: #2f9e44;
+  --teal: #0c8599;
+  --violet: #9c36b5;
+  --orange: #f08c00;
+  --grape: #7048e8;
+  --gold: #d9480f;
+  --shadow: 0 10px 40px rgba(11, 14, 20, 0.10);
+  --shadow-sm: 0 2px 10px rgba(11, 14, 20, 0.06);
+  --hand: 'Kalam', cursive;
+  --bar-h: 56px;
+  --ctrl-h: 64px;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.15;
+  margin: 0;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* ---------- Top Bar ---------- */
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--bar-h);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0 3vw;
+  background: rgba(11, 14, 20, 0.94);
+  border-bottom: 1px solid #1d2330;
+  color: #eceef2;
+  backdrop-filter: blur(10px);
+}
+.bar__brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.bar__logo { color: var(--accent); font-size: 1.25rem; }
+.bar__title {
+  font-family: var(--hand);
+  color: var(--accent-2);
+  font-size: 1.15rem;
+  margin: 0 auto;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+.bar__btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #eceef2;
+  background: #1b2230;
+  border: 1px solid #2a3344;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.2s, border-color 0.2s, color 0.2s;
+}
+.bar__btn:hover {
+  transform: translateY(-1px);
+  background: #222a3a;
+  border-color: var(--accent-2);
+  color: #fff;
+}
+.bar__btn svg { display: block; flex-shrink: 0; }
+.bar__btn .icon--compress { display: none; }
+.is-fullscreen .bar__btn .icon--expand { display: none; }
+.is-fullscreen .bar__btn .icon--compress { display: block; }
+.bar__cta {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  padding: 0.4rem 1.05rem;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(255, 106, 43, 0.35);
+  transition: transform 0.12s, box-shadow 0.2s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+.bar__cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 106, 43, 0.45);
+}
+
+/* ---------- Deck & Slides ---------- */
+.deck {
+  position: fixed;
+  top: var(--bar-h);
+  left: 0;
+  right: 0;
+  bottom: var(--ctrl-h);
+  overflow: hidden;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2vh 3.5vw;
+  background: var(--paper);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(40px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  overflow-y: auto;
+}
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  z-index: 2;
+}
+.slide.is-prev {
+  transform: translateX(-40px);
+}
+.slide__in {
+  width: 100%;
+  max-width: 1420px;
+  height: 100%;
+  max-height: 840px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+.center {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Headings & Kickers */
+.kicker {
+  font-family: var(--hand);
+  font-size: clamp(1.05rem, 2.1vh, 1.28rem);
+  color: var(--accent);
+  margin-bottom: 0.35vh;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+.kicker--light { color: var(--accent-2); }
+.h2 {
+  font-size: clamp(1.65rem, 3.8vh, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.4vh;
+}
+.h2--light { color: #fff; }
+.h2sub { font-weight: 400; font-size: 0.55em; color: var(--muted); }
+.h3 {
+  font-size: clamp(1.05rem, 2.2vh, 1.28rem);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.lead {
+  font-size: clamp(0.95rem, 1.95vh, 1.15rem);
+  color: var(--muted);
+  max-width: 1100px;
+  margin: 0.15rem 0 0.8vh;
+  line-height: 1.42;
+}
+.lead--light { color: #aab1bf; }
+.muted { color: var(--muted); }
+.link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(255, 106, 43, 0.35);
+  transition: border-color 0.15s;
+}
+.link:hover { border-color: var(--accent); }
+
+/* ---------- Slide 1: Title Hero ---------- */
+.slide--title {
+  background: radial-gradient(1200px 700px at 70% -10%, #1c2436 0%, var(--ink) 55%);
+  color: #f5f6f8;
+}
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(900px 520px at 60% 40%, #000 30%, transparent 80%);
+}
+.eyebrow {
+  position: relative;
+  display: inline-block;
+  font-family: var(--hand);
+  font-size: clamp(1.05rem, 2.2vh, 1.25rem);
+  color: var(--accent-2);
+  border: 1.6px dashed rgba(255, 180, 84, 0.5);
+  padding: 0.28rem 1.1rem;
+  border-radius: 999px;
+  margin-bottom: 1.8vh;
+  transform: rotate(-0.8deg);
+  background: rgba(255, 180, 84, 0.08);
+}
+.hero__title {
+  position: relative;
+  font-size: clamp(2.8rem, 7.5vh, 4.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(120deg, #ffffff 30%, var(--accent) 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.05;
+}
+.hero__acronym {
+  position: relative;
+  font-family: var(--hand);
+  font-size: clamp(1.15rem, 2.4vh, 1.45rem);
+  margin: 0.8vh 0 0;
+  color: #cdd2db;
+  letter-spacing: 0.01em;
+}
+.hero__acronym b { color: var(--accent-2); font-weight: 700; }
+.hero__sub {
+  position: relative;
+  font-size: clamp(1.15rem, 2.6vh, 1.55rem);
+  font-weight: 400;
+  margin: 0.8vh auto 2.2vh;
+  color: #cdd2db;
+  max-width: 960px;
+  line-height: 1.4;
+}
+.hero__sub strong { color: #fff; font-weight: 600; }
+
+.hero__pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1vw;
+  max-width: 1120px;
+  width: 100%;
+  margin: 1.2vh auto 2.0vh;
+}
+.hero__pillar {
+  background: rgba(27, 34, 48, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 1.1vh 1.0vw;
+  text-align: left;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.hero__pillar:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-2);
+}
+.hero__pillar-icon { font-size: 1.35rem; margin-bottom: 0.3vh; }
+.hero__pillar-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.2vh;
+}
+.hero__pillar-desc { font-size: 0.76rem; color: #a4adba; line-height: 1.35; }
+
+.hero__by {
+  position: relative;
+  color: #9aa2b1;
+  font-size: clamp(0.95rem, 2.0vh, 1.12rem);
+  line-height: 1.45;
+}
+.hero__by strong { color: #fff; }
+.hero__site {
+  position: relative;
+  display: inline-block;
+  margin-top: 0.8vh;
+  font-family: var(--hand);
+  font-size: clamp(0.98rem, 2.0vh, 1.18rem);
+  color: var(--accent-2);
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(255, 180, 84, 0.4);
+  transition: color 0.15s, border-color 0.15s;
+}
+.hero__site:hover { color: #fff; border-color: #fff; }
+
+/* ---------- Slide 2: About Speaker (Exact replica layout) ---------- */
+.about {
+  display: grid;
+  grid-template-columns: 1.05fr 1.1fr;
+  gap: 2.2vw;
+  margin-top: 1.2vh;
+  align-items: start;
+  min-height: 0;
+}
+.about__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75vh;
+}
+.about__list li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: clamp(0.85rem, 1.8vh, 1.0rem);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65vh 0.95rem;
+  box-shadow: var(--shadow-sm);
+  color: #2a2f38;
+}
+.about__list span:first-child { font-size: 1.2rem; flex-shrink: 0; }
+.about__books-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+.about__books-header {
+  background: rgba(255, 106, 43, 0.08);
+  padding: 0.65vh 1.0rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.88rem, 1.85vh, 1.02rem);
+  white-space: nowrap;
+  gap: 0.6rem;
+}
+.about__books-header a {
+  font-family: var(--hand);
+  font-size: clamp(0.95rem, 2.0vh, 1.1rem);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.about__books-header a:hover { text-decoration: underline; }
+.about__books-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.42rem;
+  padding: 0.65rem;
+  background: #fafaf8;
+}
+.about__book-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.28rem 0.18rem;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+.about__book-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(255, 106, 43, 0.18);
+}
+.about__book-cover {
+  width: 100%;
+  height: clamp(75px, 10.5vh, 105px);
+  object-fit: contain;
+  border-radius: 3px;
+}
+.about__book-title {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.15;
+  margin-top: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+}
+.about__book-tag {
+  font-size: 0.52rem;
+  font-weight: 800;
+  color: var(--accent);
+  background: rgba(255, 106, 43, 0.1);
+  padding: 0.05rem 0.22rem;
+  border-radius: 2px;
+  margin-top: 0.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+
+/* ---------- Slide 3: Architecture & Evidentiary Gap ---------- */
+.arch-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.2vh;
+  height: 100%;
+  min-height: 0;
+}
+.svg-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.2vh 1.4vw;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.svg-card svg {
+  width: 100%;
+  height: auto;
+  max-height: 42vh;
+  display: block;
+}
+.arch-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2vw;
+}
+.arch-mini-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.1vh 1.1vw;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.arch-mini-card.border-accent { border-top: 3px solid var(--accent); }
+.arch-mini-card.border-blue { border-top: 3px solid var(--blue); }
+.arch-mini-card.border-teal { border-top: 3px solid var(--teal); }
+
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.4vh;
+}
+.card-body {
+  font-size: clamp(0.78rem, 1.65vh, 0.88rem);
+  color: var(--muted);
+  line-height: 1.4;
+}
+.card-bullet {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-top: 0.35vh;
+}
+.card-bullet::before {
+  content: '▸';
+  color: var(--accent);
+  font-size: 0.85em;
+}
+
+/* ---------- Slide 4: 7-Layer MAESTRO Threat Matrix ---------- */
+.matrix-wrap {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 1.6vw;
+  height: 100%;
+  min-height: 0;
+  align-items: stretch;
+}
+.matrix-svg-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.0vh 1.0vw;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.matrix-svg-card svg {
+  width: 100%;
+  height: auto;
+  max-height: 64vh;
+}
+.matrix-details-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7vh;
+  justify-content: space-between;
+}
+.layer-summary-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65vh 0.9vw;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid var(--accent);
+}
+.layer-summary-card.l-violet { border-left-color: var(--violet); }
+.layer-summary-card.l-blue { border-left-color: var(--blue); }
+.layer-summary-card.l-teal { border-left-color: var(--teal); }
+.layer-summary-card.l-orange { border-left-color: var(--orange); }
+.layer-summary-card.l-gold { border-left-color: var(--gold); }
+.layer-summary-card.l-red { border-left-color: var(--red); }
+.layer-summary-card.l-grape { border-left-color: var(--grape); }
+
+.layer-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2vh;
+}
+.layer-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.layer-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.08rem 0.4rem;
+  border-radius: 4px;
+}
+.tag--violet { background: rgba(156, 54, 181, 0.12); color: var(--violet); }
+.tag--blue { background: rgba(25, 113, 194, 0.12); color: var(--blue); }
+.tag--teal { background: rgba(12, 133, 153, 0.12); color: var(--teal); }
+.tag--orange { background: rgba(240, 140, 0, 0.12); color: var(--orange); }
+.tag--gold { background: rgba(217, 72, 15, 0.12); color: var(--gold); }
+.tag--red { background: rgba(224, 49, 49, 0.12); color: var(--red); }
+.tag--grape { background: rgba(112, 72, 232, 0.12); color: var(--grape); }
+
+.layer-body {
+  font-size: clamp(0.72rem, 1.5vh, 0.81rem);
+  color: var(--muted);
+  line-height: 1.35;
+}
+.layer-body b { color: #1e242e; }
+
+/* ---------- Slide 5: Proof Bundle & Implementation Roadmap ---------- */
+.proof-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 1.6vw;
+  height: 100%;
+  min-height: 0;
+}
+.proof-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.0vh;
+}
+.proof-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.0vh;
+}
+.proof-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.2vh 1.2vw;
+  box-shadow: var(--shadow-sm);
+}
+
+/* User Rule 5a Compliance: Code Block on pure white, Consolas 9pt, indented tab, colored token syntax */
+.code-block-spec {
+  background: #ffffff !important;
+  color: #0f172a;
+  font-family: Consolas, 'JetBrains Mono', monospace;
+  font-size: 8.8pt;
+  line-height: 1.38;
+  margin-left: 25.2pt; /* Indent one tab per rule 5a */
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-left: 3pt solid #1d4ed8; /* 3pt colored left accent border */
+  border-radius: 4px;
+  white-space: pre;
+  overflow-x: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.tok-cmd { color: #1d4ed8; font-weight: 600; }
+.tok-flag { color: #7c3aed; }
+.tok-str { color: #15803d; }
+.tok-num { color: #a16207; }
+.tok-com { color: #64748b; font-style: italic; }
+.tok-key { color: #0284c7; font-weight: 600; }
+.tok-kw  { color: #be185d; font-weight: 600; }
+
+.roadmap-svg-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.0vh 1.0vw;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.roadmap-svg-card svg {
+  width: 100%;
+  height: auto;
+  max-height: 38vh;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8vw;
+  margin-top: 0.4vh;
+}
+.metric-tile {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.9vh 0.7vw;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.metric-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.2rem, 2.6vh, 1.6rem);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.metric-lbl {
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 0.2vh;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Navigation Controls ---------- */
+.ctrl {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--ctrl-h);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  padding: 0 3vw;
+  background: rgba(11, 14, 20, 0.94);
+  border-top: 1px solid #1d2330;
+  backdrop-filter: blur(10px);
+}
+.ctrl__btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #eceef2;
+  background: #1b2230;
+  border: 1px solid #2a3344;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ctrl__btn:hover {
+  transform: translateY(-2px);
+  background: #222a3a;
+}
+.ctrl__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+.ctrl__btn--accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(255, 106, 43, 0.35);
+}
+.ctrl__count {
+  font-family: var(--hand);
+  color: #9aa2b1;
+  font-size: 1.15rem;
+  min-width: 65px;
+  text-align: center;
+}
+.dots { display: flex; gap: 0.6rem; align-items: center; }
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #39435a;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dot.is-on {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+.progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--accent);
+  width: 0;
+  z-index: 41;
+  transition: width 0.35s ease;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .about, .matrix-wrap, .proof-wrap {
+    grid-template-columns: 1fr;
+    gap: 1.4vh;
+  }
+  .about__books-card { display: none; }
+  .hero__pillars { grid-template-columns: repeat(2, 1fr); }
+  .bar__title { display: none; }
+}
+@media (max-width: 600px) {
+  .ctrl__count { display: none; }
+  .dots { display: none; }
+  .bar__btn-label { display: none; }
+  .hero__pillars { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Navigation Bar -->
+<header class="bar">
+  <span class="bar__brand"><span class="bar__logo">◆</span> UCP PROOF-OF-CONTROL</span>
+  <span class="bar__title" id="slideTitle">Proof-of-Control Assurance Framework</span>
+  <div class="bar__actions">
+    <button class="bar__btn" id="fsBtn" aria-label="Toggle Fullscreen (F)" title="Toggle Fullscreen (F)">
+      <svg class="icon icon--expand" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+      </svg>
+      <svg class="icon icon--compress" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+      </svg>
+      <span class="bar__btn-label">Full Screen</span>
+    </button>
+    <a class="bar__cta" href="https://github.com/universal-commerce-protocol/ucp" target="_blank" rel="noopener">UCP Repo ↗</a>
+  </div>
+</header>
+
+<!-- Main Deck Container -->
+<main class="deck" id="deck">
+
+  <!-- ==================== SLIDE 1 · TITLE & HERO ==================== -->
+  <section class="slide slide--title is-active" data-title="Proof-of-Control for UCP">
+    <div class="slide__in center">
+      <div class="hero__grid"></div>
+      <span class="eyebrow">Universal Commerce Protocol · CSA MAESTRO Assurance Framework</span>
+      <h1 class="hero__title">PROOF-OF-CONTROL FOR UCP</h1>
+      <p class="hero__acronym"><b>Verifiable Governance</b> for Agentic Commerce at Institutional Scale</p>
+      <p class="hero__sub">
+        Moving from <strong>unilateral platform promises</strong> and after-the-fact audit reconstruction to <strong>independently verifiable evidence</strong> generated at the exact moment of commerce action.
+      </p>
+
+      <!-- 4 Core Pillars of Proof-of-Control -->
+      <div class="hero__pillars">
+        <div class="hero__pillar">
+          <div class="hero__pillar-icon">📜</div>
+          <div class="hero__pillar-title">Capability &amp; Profile Pinning</div>
+          <div class="hero__pillar-desc">Signed JSON-LD snapshots of <code>/.well-known/ucp</code>, RFC 7517 JWK discovery, and reverse-domain namespace governance.</div>
+        </div>
+        <div class="hero__pillar">
+          <div class="hero__pillar-icon">⚙️</div>
+          <div class="hero__pillar-title">Deterministic State Machine</div>
+          <div class="hero__pillar-desc">Strict outside-the-LLM gates: mandatory <code>continue_url</code> handoff on escalation; immutable completed checkout.</div>
+        </div>
+        <div class="hero__pillar">
+          <div class="hero__pillar-icon">🔏</div>
+          <div class="hero__pillar-title">AP2 Cryptographic Mandates</div>
+          <div class="hero__pillar-desc">Non-repudiable SD-JWT authorization tokens binding buyer intent, merchant authorization, and PSP tokens.</div>
+        </div>
+        <div class="hero__pillar">
+          <div class="hero__pillar-icon">🛡️</div>
+          <div class="hero__pillar-title">Merkle-Anchored Evidence</div>
+          <div class="hero__pillar-desc">RFC 9421 HTTP Signatures, Content-Digest, and tamper-evident append-only event streams for auditability.</div>
+        </div>
+      </div>
+
+      <p class="hero__by">
+        Presented by <strong>Ken Huang, CISSP</strong><br/>
+        Fellow &amp; Co-Chair of CSA AI Safety Working Groups · CEO, DistributedApps.ai
+      </p>
+      <a class="hero__site" href="https://distributedapps.ai/" target="_blank" rel="noopener">distributedapps.ai ↗</a>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 2 · ABOUT SPEAKER ==================== -->
+  <section class="slide" data-title="About Speaker">
+    <div class="slide__in">
+      <span class="kicker">About Speaker</span>
+      <h2 class="h2">Ken Huang, CISSP</h2>
+      <div class="about">
+        <!-- 9 Bio Bullet Points -->
+        <ul class="about__list">
+          <li><span>📚</span> <span>AI Book Author &amp; Speaker (Harness Engineering, MAESTRO, UCP)</span></li>
+          <li><span>🎓</span> <span>Adjunct Professor, University of San Francisco</span></li>
+          <li><span>🛡️</span> <span>OWASP AIVSS Project Lead</span></li>
+          <li><span>🤝</span> <span>Fellow &amp; Co-Chair of two CSA AI Safety Working Groups</span></li>
+          <li><span>🔟</span> <span>Core Member, OWASP Top 10 for LLM Applications</span></li>
+          <li><span>🏛️</span> <span>AIUC-1 Consortium Member</span></li>
+          <li><span>🔬</span> <span>Grant Review Member for Schmidt Sciences</span></li>
+          <li><span>🧑‍🏫</span> <span>EC-Council Instructor — Generative AI for Cyber Security</span></li>
+          <li><span>🚀</span> <span>CEO of <a class="link" href="https://distributedapps.ai/" target="_blank" rel="noopener noreferrer">DistributedApps.ai</a></span></li>
+        </ul>
+
+        <!-- 12 Published Books Grid (maestro-site asset paths) -->
+        <div class="about__books-card">
+          <div class="about__books-header">
+            <span>📚 AI &amp; Academic Publications</span>
+            <a href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener noreferrer">Amazon Author Page ➔</a>
+          </div>
+          <div class="about__books-grid">
+            <a href="https://www.amazon.com/dp/3031900251" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Agentic AI: Theories and Practices (Springer)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/springer_agentic_ai.jpg" alt="Agentic AI (Springer)" class="about__book-cover" />
+              <div class="about__book-title">Agentic AI</div>
+              <div class="about__book-tag">Springer</div>
+            </a>
+            <a href="https://www.amazon.com/dp/3031448839" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Beyond AI: ChatGPT, Web3, and Business (Springer)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/springer_beyond_ai.jpg" alt="Beyond AI (Springer)" class="about__book-cover" />
+              <div class="about__book-title">Beyond AI</div>
+              <div class="about__book-tag">Springer</div>
+            </a>
+            <a href="https://www.amazon.com/dp/3031542517" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Generative AI Security: Theories and Practices (Springer)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/springer_generative_ai_security.jpg" alt="GenAI Security (Springer)" class="about__book-cover" />
+              <div class="about__book-title">GenAI Security</div>
+              <div class="about__book-tag">Springer</div>
+            </a>
+            <a href="https://www.amazon.com/dp/3031901002" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Securing AI Agents: Foundations &amp; Deployment (Springer)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/springer_securing_ai_agents.jpg" alt="Securing AI Agents (Springer)" class="about__book-cover" />
+              <div class="about__book-title">Securing Agents</div>
+              <div class="about__book-tag">Springer</div>
+            </a>
+            <a href="https://www.amazon.com/dp/1009384467" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Web3: Blockchain &amp; Self-Sovereign Internet (Cambridge University Press)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/cambridge_web3.jpg" alt="Web3 (Cambridge UP)" class="about__book-cover" />
+              <div class="about__book-title">Web3 &amp; Economy</div>
+              <div class="about__book-tag">Cambridge</div>
+            </a>
+            <a href="https://www.amazon.com/dp/1394186524" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Blockchain and Web3: Building Foundations of the Metaverse (Wiley)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/wiley_blockchain_web3.jpg" alt="Blockchain &amp; Web3 (Wiley)" class="about__book-cover" />
+              <div class="about__book-title">Blockchain</div>
+              <div class="about__book-tag">Wiley</div>
+            </a>
+            <a href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems (Packt / Amazon #1 Best Seller)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/harness_engineering.jpg" alt="Harness Engineering" class="about__book-cover" />
+              <div class="about__book-title">Harness Eng.</div>
+              <div class="about__book-tag">Best Seller</div>
+            </a>
+            <a href="https://www.amazon.com/dp/1807785017" target="_blank" rel="noopener noreferrer" class="about__book-item" title="OpenClaw AI in Production (Packt)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/openclaw_ai_in_production.jpg" alt="OpenClaw AI in Production" class="about__book-cover" />
+              <div class="about__book-title">OpenClaw AI</div>
+              <div class="about__book-tag">Packt</div>
+            </a>
+            <a href="https://www.amazon.com/dp/B0H8JW9XFN" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Engineering Agentic AI with Claude">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/engineering_agentic_ai_claude.jpg" alt="Engineering Agentic AI with Claude" class="about__book-cover" />
+              <div class="about__book-title">Agentic Claude</div>
+              <div class="about__book-tag">Claude AI</div>
+            </a>
+            <a href="https://www.amazon.com/dp/1836207034" target="_blank" rel="noopener noreferrer" class="about__book-item" title="LLM Design Patterns (Packt)">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/llm_design_patterns.jpg" alt="LLM Design Patterns" class="about__book-cover" />
+              <div class="about__book-title">LLM Patterns</div>
+              <div class="about__book-tag">Packt</div>
+            </a>
+            <a href="https://www.amazon.com/dp/B0H13XWS8W" target="_blank" rel="noopener noreferrer" class="about__book-item" title="Agentic AI Harness Pattern: Top 15 Patterns">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/agentic_ai_harness_pattern.jpg" alt="Agentic AI Harness Pattern" class="about__book-cover" />
+              <div class="about__book-title">AI Harness</div>
+              <div class="about__book-tag">Patterns</div>
+            </a>
+            <a href="https://www.amazon.com/dp/B0DCBDGNTN" target="_blank" rel="noopener noreferrer" class="about__book-item" title="The Layperson's Handbook to Generative AI">
+              <img src="https://kenhuangus.github.io/maestro-site/assets/images/books/laypersons_handbook_genai.jpg" alt="Handbook to GenAI" class="about__book-cover" />
+              <div class="about__book-title">GenAI Guide</div>
+              <div class="about__book-tag">Handbook</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 3 · ARCHITECTURE & TRUST BOUNDARY ==================== -->
+  <section class="slide" data-title="UCP Trust Boundary &amp; Evidentiary Gap">
+    <div class="slide__in">
+      <span class="kicker">Protocol Foundations &amp; Evidentiary Gap</span>
+      <h2 class="h2">The UCP Trust Shift: From Promises to Cryptographic Proof</h2>
+      <p class="lead">
+        UCP solves N-to-N capability negotiation, but open protocols alone do not guarantee institutional trust. Proof-of-Control establishes verifiable evidence at every protocol transition.
+      </p>
+
+      <div class="arch-container">
+        <!-- High-Resolution Architecture Flow SVG Diagram -->
+        <div class="svg-card">
+          <svg viewBox="0 0 1100 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background Grid Accent -->
+            <rect x="0" y="0" width="1100" height="290" rx="10" fill="#faf9f5"/>
+            <path d="M 50 0 L 50 290 M 270 0 L 270 290 M 520 0 L 520 290 M 800 0 L 800 290 M 1050 0 L 1050 290" stroke="#f0ece1" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+            <!-- STAGE 1: Buyer Intent & Platform Agent -->
+            <g transform="translate(30, 25)">
+              <rect x="0" y="0" width="220" height="240" rx="8" fill="#ffffff" stroke="#e3dfd7" stroke-width="1.5"/>
+              <rect x="0" y="0" width="220" height="34" rx="8" fill="#1b2230"/>
+              <text x="110" y="22" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" text-anchor="middle">1. Buyer &amp; Platform Agent</text>
+              
+              <rect x="14" y="48" width="192" height="46" rx="6" fill="#f8f9fa" stroke="#e9ecef"/>
+              <text x="24" y="66" fill="#1971c2" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700">Intent &amp; Mandate</text>
+              <text x="24" y="82" fill="#5d6470" font-family="'Inter', sans-serif" font-size="10">Scoped buyer delegation</text>
+
+              <rect x="14" y="104" width="192" height="60" rx="6" fill="#f8f9fa" stroke="#e9ecef"/>
+              <text x="24" y="122" fill="#212529" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700">Discovery &amp; Profile</text>
+              <text x="24" y="138" fill="#5d6470" font-family="'Inter', sans-serif" font-size="10">UCP-Agent: profile URL</text>
+              <text x="24" y="152" fill="#15803d" font-family="'JetBrains Mono', monospace" font-size="9.5">keys[] JWK ES256</text>
+
+              <rect x="14" y="174" width="192" height="52" rx="6" fill="#fdf2e9" stroke="#fcd34d"/>
+              <text x="24" y="192" fill="#b45309" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700">RFC 9421 Signatures</text>
+              <text x="24" y="210" fill="#78350f" font-family="'Inter', sans-serif" font-size="9.5">Signature-Input &amp; Digest</text>
+            </g>
+
+            <!-- Arrow 1 -> 2 -->
+            <path d="M 255 145 L 295 145" stroke="#ff6a2b" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+            <text x="275" y="136" fill="#ff6a2b" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" text-anchor="middle">REST/MCP</text>
+
+            <!-- STAGE 2: Capability & Namespace Gate -->
+            <g transform="translate(300, 25)">
+              <rect x="0" y="0" width="240" height="240" rx="8" fill="#ffffff" stroke="#e3dfd7" stroke-width="1.5"/>
+              <rect x="0" y="0" width="240" height="34" rx="8" fill="#1971c2"/>
+              <text x="120" y="22" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" text-anchor="middle">2. Capability &amp; Namespace</text>
+
+              <rect x="14" y="48" width="212" height="52" rx="6" fill="#f0f7ff" stroke="#bae6fd"/>
+              <text x="24" y="66" fill="#0369a1" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700">Reverse-Domain Check</text>
+              <text x="24" y="82" fill="#0284c7" font-family="'JetBrains Mono', monospace" font-size="9.5">dev.ucp.shopping.*</text>
+              <text x="24" y="94" fill="#64748b" font-family="'Inter', sans-serif" font-size="9">Authority match schema host</text>
+
+              <rect x="14" y="110" width="212" height="58" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+              <text x="24" y="128" fill="#334155" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700">Intersection &amp; Pruning</text>
+              <text x="24" y="144" fill="#64748b" font-family="'Inter', sans-serif" font-size="9.5">Prune orphaned extensions</text>
+              <text x="24" y="158" fill="#64748b" font-family="'Inter', sans-serif" font-size="9.5">Date-based version pinning</text>
+
+              <rect x="14" y="178" width="212" height="48" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+              <text x="24" y="196" fill="#166534" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700">Proof Evidence</text>
+              <text x="24" y="212" fill="#15803d" font-family="'Inter', sans-serif" font-size="9.5">Signed Negotiation Transcript</text>
+            </g>
+
+            <!-- Arrow 2 -> 3 -->
+            <path d="M 545 145 L 585 145" stroke="#ff6a2b" stroke-width="2.5"/>
+
+            <!-- STAGE 3: Deterministic Checkout State Machine -->
+            <g transform="translate(590, 25)">
+              <rect x="0" y="0" width="230" height="240" rx="8" fill="#ffffff" stroke="#e3dfd7" stroke-width="1.5"/>
+              <rect x="0" y="0" width="230" height="34" rx="8" fill="#0c8599"/>
+              <text x="115" y="22" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" text-anchor="middle">3. Checkout State Machine</text>
+
+              <!-- State nodes -->
+              <rect x="14" y="46" width="202" height="32" rx="5" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <text x="115" y="66" fill="#334155" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">incomplete</text>
+
+              <path d="M 115 78 L 115 90" stroke="#0c8599" stroke-width="2"/>
+
+              <rect x="14" y="90" width="202" height="42" rx="5" fill="#fef2f2" stroke="#fca5a5"/>
+              <text x="115" y="107" fill="#b91c1c" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" text-anchor="middle">requires_escalation</text>
+              <text x="115" y="122" fill="#dc2626" font-family="'Inter', sans-serif" font-size="9" text-anchor="middle">⚡ Mandatory continue_url</text>
+
+              <path d="M 115 132 L 115 144" stroke="#0c8599" stroke-width="2"/>
+
+              <rect x="14" y="144" width="202" height="36" rx="5" fill="#ecfdf5" stroke="#a7f3d0"/>
+              <text x="115" y="161" fill="#047857" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" text-anchor="middle">ready_for_complete</text>
+              <text x="115" y="173" fill="#065f46" font-family="'Inter', sans-serif" font-size="8.5" text-anchor="middle">AP2 Mandate or User UI</text>
+
+              <path d="M 115 180 L 115 192" stroke="#0c8599" stroke-width="2"/>
+
+              <rect x="14" y="192" width="202" height="32" rx="5" fill="#1e293b"/>
+              <text x="115" y="212" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">completed (Immutable)</text>
+            </g>
+
+            <!-- Arrow 3 -> 4 -->
+            <path d="M 825 145 L 865 145" stroke="#ff6a2b" stroke-width="2.5"/>
+
+            <!-- STAGE 4: AP2 Mandates & Merkle Audit Trail -->
+            <g transform="translate(870, 25)">
+              <rect x="0" y="0" width="200" height="240" rx="8" fill="#ffffff" stroke="#e3dfd7" stroke-width="1.5"/>
+              <rect x="0" y="0" width="200" height="34" rx="8" fill="#7048e8"/>
+              <text x="100" y="22" fill="#ffffff" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" text-anchor="middle">4. Mandates &amp; Audit</text>
+
+              <rect x="12" y="48" width="176" height="52" rx="6" fill="#faf5ff" stroke="#e9d5ff"/>
+              <text x="20" y="66" fill="#7e22ce" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700">AP2 Dual Mandate</text>
+              <text x="20" y="81" fill="#6b21a8" font-family="'Inter', sans-serif" font-size="9">ap2.checkout_mandate</text>
+              <text x="20" y="93" fill="#6b21a8" font-family="'Inter', sans-serif" font-size="9">Payment token binding</text>
+
+              <rect x="12" y="108" width="176" height="56" rx="6" fill="#fdf4ff" stroke="#f5d0fe"/>
+              <text x="20" y="126" fill="#a21caf" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700">Payment 6-Binding</text>
+              <text x="20" y="141" fill="#701a75" font-family="'Inter', sans-serif" font-size="8.8">Merchant, Checkout ID,</text>
+              <text x="20" y="153" fill="#701a75" font-family="'Inter', sans-serif" font-size="8.8">Handler, Amount, Expiry</text>
+
+              <rect x="12" y="172" width="176" height="54" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+              <text x="20" y="190" fill="#334155" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700">Merkle Event Log</text>
+              <text x="20" y="206" fill="#475569" font-family="'Inter', sans-serif" font-size="9">Signed webhook stream</text>
+              <text x="20" y="218" fill="#475569" font-family="'Inter', sans-serif" font-size="9">Tamper-evident hash tree</text>
+            </g>
+
+            <!-- Marker Defs -->
+            <defs>
+              <marker id="arr-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 8 5 L 0 9 z" fill="#ff6a2b"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- 3 Invariant Cards Below Diagram -->
+        <div class="arch-cards-row">
+          <div class="arch-mini-card border-accent">
+            <div class="card-title">⚠️ The Evidentiary Gap</div>
+            <div class="card-body">
+              Baseline UCP allows unsigned requests, mutable server logs, and non-pinned schemas. If a dispute occurs, counterparties cannot independently prove authority or state after the fact.
+            </div>
+            <div class="card-bullet"><span>Requires session-pinned profile snapshots &amp; JWK keys.</span></div>
+          </div>
+
+          <div class="arch-mini-card border-blue">
+            <div class="card-title">⚙️ Outside-the-LLM Control Gates</div>
+            <div class="card-body">
+              LLMs must never control checkout state transitions. When checkout returns <code>requires_escalation</code>, the platform agent is deterministically blocked from completion and forced to hand off to <code>continue_url</code>.
+            </div>
+            <div class="card-bullet"><span>Zero-tolerance for escalation bypasses.</span></div>
+          </div>
+
+          <div class="arch-mini-card border-teal">
+            <div class="card-title">🔏 AP2 Dual Mandate Cryptography</div>
+            <div class="card-body">
+              Autonomous purchases require Selective Disclosure JWTs (SD-JWT) key-bound to user identity: both an <code>ap2.checkout_mandate</code> and a correlated payment token with 6-parameter binding.
+            </div>
+            <div class="card-bullet"><span>Non-repudiable authority for autonomous agents.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 4 · MAESTRO 7-LAYER THREAT MATRIX ==================== -->
+  <section class="slide" data-title="MAESTRO 7-Layer Threat Model for UCP">
+    <div class="slide__in">
+      <span class="kicker">Comprehensive Threat Modeling</span>
+      <h2 class="h2">MAESTRO 7-Layer Defense for Agentic Commerce</h2>
+      <p class="lead">
+        Mapping Cloud Security Alliance's MAESTRO model to UCP surfaces to establish verifiable invariants against hallucinations, state manipulation, and replay attacks.
+      </p>
+
+      <div class="matrix-wrap">
+        <!-- High-Impact 7-Layer Stack Architecture Diagram -->
+        <div class="matrix-svg-card">
+          <svg viewBox="0 0 640 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="640" height="480" rx="10" fill="#faf9f5"/>
+
+            <!-- Layer 7: Agent Ecosystem -->
+            <g transform="translate(20, 15)">
+              <rect width="600" height="54" rx="8" fill="#f3eefc" stroke="#7048e8" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#7048e8"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 7</text>
+              <text x="45" y="42" fill="#e9d5ff" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Ecosystem</text>
+              <text x="105" y="24" fill="#4c1d95" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Agent Ecosystem Security</text>
+              <text x="105" y="42" fill="#5b21b6" font-family="'Inter', sans-serif" font-size="10.5">Threat: Agent impersonation, payment replay ➔ Proof: AP2 SD-JWT Mandates, 6-param binding</text>
+            </g>
+
+            <!-- Layer 6: Security, Governance & Compliance -->
+            <g transform="translate(20, 79)">
+              <rect width="600" height="54" rx="8" fill="#fdeeee" stroke="#e03131" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#e03131"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 6</text>
+              <text x="45" y="42" fill="#fee2e2" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Governance</text>
+              <text x="105" y="24" fill="#7f1d1d" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Security, Governance &amp; Compliance</text>
+              <text x="105" y="42" fill="#991b1b" font-family="'Inter', sans-serif" font-size="10.5">Threat: Pre-release version drift, overbroad OAuth ➔ Proof: Date versions, PKCE S256 proofs</text>
+            </g>
+
+            <!-- Layer 5: Evaluation & Observability -->
+            <g transform="translate(20, 143)">
+              <rect width="600" height="54" rx="8" fill="#fff8e6" stroke="#d9480f" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#d9480f"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 5</text>
+              <text x="45" y="42" fill="#fef3c7" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Observe</text>
+              <text x="105" y="24" fill="#7c2d12" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Evaluation &amp; Observability</text>
+              <text x="105" y="42" fill="#9a3412" font-family="'Inter', sans-serif" font-size="10.5">Threat: Mutable logs, forged order webhooks ➔ Proof: RFC 9421 Signatures, Merkle log roots</text>
+            </g>
+
+            <!-- Layer 4: Deployment & Infrastructure -->
+            <g transform="translate(20, 207)">
+              <rect width="600" height="54" rx="8" fill="#fff4e8" stroke="#f08c00" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#f08c00"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 4</text>
+              <text x="45" y="42" fill="#ffedd5" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Infra</text>
+              <text x="105" y="24" fill="#78350f" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Deployment &amp; Infrastructure</text>
+              <text x="105" y="42" fill="#92400e" font-family="'Inter', sans-serif" font-size="10.5">Threat: Profile SSRF, Content-Digest mutation ➔ Proof: HTTPS no-redirect, KMS/HSM, TEE</text>
+            </g>
+
+            <!-- Layer 3: Agent Framework -->
+            <g transform="translate(20, 271)">
+              <rect width="600" height="54" rx="8" fill="#e8f7f7" stroke="#0c8599" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#0c8599"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 3</text>
+              <text x="45" y="42" fill="#cffafe" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Framework</text>
+              <text x="105" y="24" fill="#164e63" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Agent Framework Security</text>
+              <text x="105" y="42" fill="#155e75" font-family="'Inter', sans-serif" font-size="10.5">Threat: Orphaned extensions, escalation bypass ➔ Proof: Formal state machine, signed transcripts</text>
+            </g>
+
+            <!-- Layer 2: Data Operations -->
+            <g transform="translate(20, 335)">
+              <rect width="600" height="54" rx="8" fill="#eef4fc" stroke="#1971c2" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#1971c2"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 2</text>
+              <text x="45" y="42" fill="#dbeafe" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Data Ops</text>
+              <text x="105" y="24" fill="#1e3a8a" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Data Operations Security</text>
+              <text x="105" y="42" fill="#1d4ed8" font-family="'Inter', sans-serif" font-size="10.5">Threat: Stale catalog, poisoned signals ➔ Proof: Signed feeds, observed signals, consent-to-policy</text>
+            </g>
+
+            <!-- Layer 1: Foundation Models -->
+            <g transform="translate(20, 399)">
+              <rect width="600" height="54" rx="8" fill="#f8eefc" stroke="#9c36b5" stroke-width="1.6"/>
+              <rect width="90" height="54" rx="8" fill="#9c36b5"/>
+              <text x="45" y="26" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">LAYER 1</text>
+              <text x="45" y="42" fill="#fae8ff" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Models</text>
+              <text x="105" y="24" fill="#581c87" font-family="'Space Grotesk', sans-serif" font-size="12.5" font-weight="700">Foundation Model Security</text>
+              <text x="105" y="42" fill="#6b21a8" font-family="'Inter', sans-serif" font-size="10.5">Threat: Prompt injection, model hallucination ➔ Proof: Signed manifests, deterministic outside gates</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- 7 Layer Actionable Summaries -->
+        <div class="matrix-details-stack">
+          <div class="layer-summary-card l-grape">
+            <div class="layer-hdr">
+              <span class="layer-name">L7: Ecosystem &amp; Counterparties</span>
+              <span class="layer-tag tag--grape">High Risk</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Rogue agents, payment credential replay across merchants.<br/>
+              <b>Proof:</b> AP2 SD-JWT dual mandates; payment bound to 6-tuple; SBOM/SLSA vetting.
+            </div>
+          </div>
+
+          <div class="layer-summary-card l-red">
+            <div class="layer-hdr">
+              <span class="layer-name">L6: Governance &amp; Compliance</span>
+              <span class="layer-tag tag--red">Policy</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Pre-release draft downgrade attacks; overbroad OAuth scopes.<br/>
+              <b>Proof:</b> Date versions (<code>YYYY-MM-DD</code>); signed leaf profiles; OAuth PKCE S256 mapping.
+            </div>
+          </div>
+
+          <div class="layer-summary-card l-gold">
+            <div class="layer-hdr">
+              <span class="layer-name">L5: Observability &amp; Audit Logs</span>
+              <span class="layer-tag tag--gold">Audit</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Post-dispute log deletion/reordering; forged webhook order events.<br/>
+              <b>Proof:</b> RFC 9421 HTTP Message Signatures; signer-to-order ownership verification.
+            </div>
+          </div>
+
+          <div class="layer-summary-card l-orange">
+            <div class="layer-hdr">
+              <span class="layer-name">L4: Infrastructure &amp; Transports</span>
+              <span class="layer-tag tag--orange">Infra</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Profile SSRF/redirect substitution; gateway Content-Digest reserialization.<br/>
+              <b>Proof:</b> HTTPS-only no-redirect fetch; HSM/KMS keys; TEE remote attestation.
+            </div>
+          </div>
+
+          <div class="layer-summary-card l-teal">
+            <div class="layer-hdr">
+              <span class="layer-name">L3: Agent Framework &amp; State</span>
+              <span class="layer-tag tag--teal">Protocol</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Orphaned extensions; namespace spoofing; <code>requires_escalation</code> bypass.<br/>
+              <b>Proof:</b> Reverse-domain checks; formal state machine; signed negotiation transcript.
+            </div>
+          </div>
+
+          <div class="layer-summary-card l-blue">
+            <div class="layer-hdr">
+              <span class="layer-name">L2: Data Operations &amp; Signals</span>
+              <span class="layer-tag tag--blue">Data</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Poisoned catalog feeds; stale pricing; unverified buyer-asserted signals.<br/>
+              <b>Proof:</b> Merkle catalog state; signed signal attestations; consent-to-policy logs.
+            </div>
+          </div>
+
+          <div class="layer-summary-card l-violet">
+            <div class="layer-hdr">
+              <span class="layer-name">L1: Foundation Models</span>
+              <span class="layer-tag tag--violet">Reasoning</span>
+            </div>
+            <div class="layer-body">
+              <b>Threat:</b> Prompt injection altering commerce terms; model version drift.<br/>
+              <b>Proof:</b> Signed model/policy manifests; deterministic execution outside the LLM.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 5 · PROOF BUNDLE & ROADMAP ==================== -->
+  <section class="slide" data-title="Proof Bundle &amp; Implementation Roadmap">
+    <div class="slide__in">
+      <span class="kicker">Execution &amp; Production Assurance</span>
+      <h2 class="h2">The Proof Bundle Lifecycle &amp; Implementation Roadmap</h2>
+      <p class="lead">
+        Portable, non-repudiable evidence packages resolving disputes and regulatory inquiries in under 60 seconds without unilateral platform trust.
+      </p>
+
+      <div class="proof-wrap">
+        <!-- Left Column: The Canonical Transaction Proof Bundle -->
+        <div class="proof-left">
+          <div class="proof-card">
+            <div class="card-title">📦 Institutional Transaction Proof Bundle</div>
+            <div class="card-body" style="margin-bottom: 0.5vh;">
+              For any disputed or high-value UCP transaction, the system produces a self-contained cryptographic evidence archive containing all 6 verifiable artifacts:
+            </div>
+
+            <!-- Compliant Code Block: White bg, Consolas 9pt, indented tab, token highlighted per Rule 5a -->
+            <pre class="code-block-spec"><code>{
+  <span class="tok-key">"ucp_bundle_version"</span>: <span class="tok-str">"2026-07-17"</span>,
+  <span class="tok-key">"session_id"</span>: <span class="tok-str">"sess_98e2a4"</span>,
+  <span class="tok-key">"profiles"</span>: {
+    <span class="tok-key">"business_profile_hash"</span>: <span class="tok-str">"sha256:d8a9...3f"</span>,
+    <span class="tok-key">"platform_profile_hash"</span>: <span class="tok-str">"sha256:4b11...9a"</span>
+  },
+  <span class="tok-key">"negotiation_transcript_jws"</span>: <span class="tok-str">"eyJhbGciOiJFUzI1NiIs..."</span>,
+  <span class="tok-key">"state_transitions"</span>: [
+    { <span class="tok-key">"from"</span>: <span class="tok-str">"incomplete"</span>, <span class="tok-key">"to"</span>: <span class="tok-str">"ready_for_complete"</span>, <span class="tok-key">"sig"</span>: <span class="tok-str">"es256:..."</span> }
+  ],
+  <span class="tok-key">"ap2_mandate"</span>: {
+    <span class="tok-key">"type"</span>: <span class="tok-str">"sd-jwt"</span>,
+    <span class="tok-key">"checkout_mandate"</span>: <span class="tok-str">"sdjwt:buyer_auth..."</span>,
+    <span class="tok-key">"payment_token"</span>: <span class="tok-str">"sdjwt:psp_token..."</span>
+  },
+  <span class="tok-key">"payment_binding"</span>: {
+    <span class="tok-key">"merchant"</span>: <span class="tok-str">"biz_shopify_09"</span>,
+    <span class="tok-key">"amount"</span>: <span class="tok-num">129.50</span>,
+    <span class="tok-key">"currency"</span>: <span class="tok-str">"USD"</span>,
+    <span class="tok-key">"expires"</span>: <span class="tok-num">1784290000</span>
+  },
+  <span class="tok-key">"order_event_merkle_root"</span>: <span class="tok-str">"sha256:7c9e...1b"</span>
+}</code></pre>
+          </div>
+
+          <!-- 4 Success Metric Tiles -->
+          <div class="metrics-grid">
+            <div class="metric-tile">
+              <div class="metric-val">100%</div>
+              <div class="metric-lbl">Signed State Changes</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-val">0</div>
+              <div class="metric-lbl">Escalation Bypasses</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-val">100%</div>
+              <div class="metric-lbl">AP2 Mandate Coverage</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-val">&lt; 60s</div>
+              <div class="metric-lbl">Proof Audit Time</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: 4-Phase Phased Implementation Roadmap SVG -->
+        <div class="proof-right">
+          <div class="roadmap-svg-card">
+            <svg viewBox="0 0 540 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="540" height="370" rx="8" fill="#faf9f5"/>
+
+              <!-- Phase 0 -->
+              <g transform="translate(20, 16)">
+                <rect width="500" height="72" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+                <rect width="80" height="72" rx="6" fill="#475569"/>
+                <text x="40" y="32" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">PHASE 0</text>
+                <text x="40" y="48" fill="#cbd5e1" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Baseline</text>
+                <text x="96" y="28" fill="#1e293b" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700">UCP Conformance Baseline</text>
+                <text x="96" y="46" fill="#64748b" font-family="'Inter', sans-serif" font-size="10.5">HTTPS no-redirects; reverse-domain checks; capability intersection;</text>
+                <text x="96" y="60" fill="#64748b" font-family="'Inter', sans-serif" font-size="10.5">OAuth PKCE S256 identity linking; mandatory continue_url escalation.</text>
+              </g>
+
+              <!-- Phase 1 -->
+              <g transform="translate(20, 102)">
+                <rect width="500" height="72" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.4"/>
+                <rect width="80" height="72" rx="6" fill="#16a34a"/>
+                <text x="40" y="32" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">PHASE 1</text>
+                <text x="40" y="48" fill="#bbf7d0" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Evidence</text>
+                <text x="96" y="28" fill="#14532d" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700">Cryptographic Evidence Baseline</text>
+                <text x="96" y="46" fill="#166534" font-family="'Inter', sans-serif" font-size="10.5">HSM/KMS keys; RFC 9421 signatures &amp; Content-Digest on state changes;</text>
+                <text x="96" y="60" fill="#166534" font-family="'Inter', sans-serif" font-size="10.5">signed order webhooks; Merkle-anchored append-only event streams.</text>
+              </g>
+
+              <!-- Phase 2 -->
+              <g transform="translate(20, 188)">
+                <rect width="500" height="72" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.4"/>
+                <rect width="80" height="72" rx="6" fill="#2563eb"/>
+                <text x="40" y="32" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">PHASE 2</text>
+                <text x="40" y="48" fill="#bfdbfe" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">MAESTRO</text>
+                <text x="96" y="28" fill="#1e3a8a" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700">MAESTRO Control Assurance</text>
+                <text x="96" y="46" fill="#1d4ed8" font-family="'Inter', sans-serif" font-size="10.5">Formal verification of state logic; AP2 mandates for autonomous checkouts;</text>
+                <text x="96" y="60" fill="#1d4ed8" font-family="'Inter', sans-serif" font-size="10.5">TEE remote runtime attestation; consent-to-policy enforcement proofs.</text>
+              </g>
+
+              <!-- Phase 3 -->
+              <g transform="translate(20, 274)">
+                <rect width="500" height="72" rx="6" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1.4"/>
+                <rect width="80" height="72" rx="6" fill="#9333ea"/>
+                <text x="40" y="32" fill="#fff" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" text-anchor="middle">PHASE 3</text>
+                <text x="40" y="48" fill="#e9d5ff" font-family="'JetBrains Mono', monospace" font-size="9" text-anchor="middle">Ecosystem</text>
+                <text x="96" y="28" fill="#581c87" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700">Ecosystem Verification &amp; Scale</text>
+                <text x="96" y="46" fill="#7e22ce" font-family="'Inter', sans-serif" font-size="10.5">Cross-platform profile transparency logs; Zero-Knowledge privacy proofs;</text>
+                <text x="96" y="60" fill="#7e22ce" font-family="'Inter', sans-serif" font-size="10.5">multi-party threshold MPC for corporate procurement; regulator bundles.</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Bottom Controls -->
+<nav class="ctrl">
+  <button class="ctrl__btn" id="prevBtn" aria-label="Previous slide">← Prev</button>
+  <div class="dots" id="dots"></div>
+  <span class="ctrl__count" id="count">1 / 5</span>
+  <button class="ctrl__btn ctrl__btn--accent" id="nextBtn" aria-label="Next slide">Next →</button>
+</nav>
+
+<!-- Horizontal Progress Bar -->
+<div class="progress" id="progress"></div>
+
+<!-- Interactive Deck Engine -->
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const total = slides.length;
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const count = document.getElementById("count");
+  const dotsWrap = document.getElementById("dots");
+  const progress = document.getElementById("progress");
+  const title = document.getElementById("slideTitle");
+
+  // Build pagination dots
+  slides.forEach((_, i) => {
+    const d = document.createElement("button");
+    d.className = "dot";
+    d.setAttribute("aria-label", "Go to slide " + (i + 1));
+    d.addEventListener("click", () => go(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  let cur = 0;
+
+  function clamp(i) {
+    return Math.max(0, Math.min(total - 1, i));
+  }
+
+  function go(i) {
+    i = clamp(i);
+    slides.forEach((s, idx) => {
+      s.classList.toggle("is-active", idx === i);
+      s.classList.toggle("is-prev", idx < i);
+    });
+    dots.forEach((d, idx) => d.classList.toggle("is-on", idx === i));
+    cur = i;
+    count.textContent = (i + 1) + " / " + total;
+    title.textContent = slides[i].dataset.title || "";
+    progress.style.width = (total > 1 ? (i / (total - 1) * 100) : 100) + "%";
+    prevBtn.disabled = (i === 0);
+    nextBtn.disabled = (i === total - 1);
+    if (history.replaceState) {
+      history.replaceState(null, "", "#" + (i + 1));
+    }
+  }
+
+  const next = () => go(cur + 1);
+  const prev = () => go(cur - 1);
+  nextBtn.addEventListener("click", next);
+  prevBtn.addEventListener("click", prev);
+
+  // Fullscreen support
+  const fsBtn = document.getElementById("fsBtn");
+  function isFullscreen() {
+    return !!(
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
+  }
+
+  function toggleFullscreen() {
+    if (!isFullscreen()) {
+      const docEl = document.documentElement;
+      const rfs = docEl.requestFullscreen ||
+                  docEl.webkitRequestFullscreen ||
+                  docEl.mozRequestFullScreen ||
+                  docEl.msRequestFullscreen;
+      if (rfs) rfs.call(docEl);
+    } else {
+      const efs = document.exitFullscreen ||
+                  document.webkitExitFullscreen ||
+                  document.mozCancelFullScreen ||
+                  document.msExitFullscreen;
+      if (efs) efs.call(document);
+    }
+  }
+
+  if (fsBtn) {
+    fsBtn.addEventListener("click", toggleFullscreen);
+    document.addEventListener("fullscreenchange", () => {
+      document.body.classList.toggle("is-fullscreen", isFullscreen());
+    });
+  }
+
+  // Keyboard navigation
+  window.addEventListener("keydown", (e) => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+      e.preventDefault();
+      next();
+    } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+      e.preventDefault();
+      prev();
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      go(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      go(total - 1);
+    } else if (e.key === "f" || e.key === "F") {
+      toggleFullscreen();
+    } else if (e.key >= "1" && e.key <= String(total)) {
+      go(parseInt(e.key, 10) - 1);
+    }
+  });
+
+  // URL Hash initialization (#1, #2, etc.)
+  function initFromHash() {
+    const hash = window.location.hash;
+    if (hash) {
+      const num = parseInt(hash.replace("#", ""), 10);
+      if (!isNaN(num) && num >= 1 && num <= total) {
+        go(num - 1);
+        return;
+      }
+    }
+    go(0);
+  }
+
+  window.addEventListener("hashchange", initFromHash);
+  initFromHash();
+})();
+</script>
+</body>
+</html>
