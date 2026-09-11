@@ -30,6 +30,7 @@ Proof-of-Control closes this evidentiary gap by shifting assurance from unilater
 ## Author
 
 **Ken Huang, CISSP**  
-Fellow & Co-Chair of CSA AI Safety Working Groups · CEO, DistributedApps.ai  
-- Website: https://distributedapps.ai/
+Co-Chair, Proof of Control and Open Verification, [Advanced AI Society](https://advancedaisociety.org/) · AI Book Author  
+- Advanced AI Society: https://advancedaisociety.org/
+- DistributedApps.ai: https://distributedapps.ai/
 - Amazon Author Page: https://www.amazon.com/stores/author/B0D3J7L7GN
